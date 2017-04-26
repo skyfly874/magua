@@ -1,0 +1,31 @@
+import requests
+from bs4 import BeautifulSoup
+url = 'http://search.51job.com/list/180200%252C00,000000,0000,00,9,99,IT,2,1.html?lang=c&degreefrom=99&stype=1&workyear=99&cotype=99&jobterm=99&companysize=99&radius=-1&address=&lonlat=&postchannel=&list_type=&ord_field=&curr_page=&dibiaoid=0&landmark=&welfare='
+url1 = 'http://jobs.51job.com/wuhan-jhq/82027843.html?s=01&t=0'
+headers = {
+    'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36',
+    'Cookie':'guid=14932093075217060075; ps=us%3DXGYAbA9zAzQHblooCm0HMAM5UH9RZQVgBzhSfAoxBTENPABoUDACNFw0C2IEZ1dhUWtQZAQyWnMBcwYCC0JRaFwh%26%7C%26needv%3D0; 51job=cuid%3D26377178%26%7C%26cusername%3Dng989%26%7C%26cpassword%3D%26%7C%26cname%3D%25BA%25FA%25BD%25F0%25C1%25FA%26%7C%26cemail%3Dng989%2540126.com%26%7C%26cemailstatus%3D3%26%7C%26cnickname%3Dng989%26%7C%26ccry%3D.0HOSBF8qJuLo%26%7C%26cconfirmkey%3DngQWHXgpwqk6o%26%7C%26cresumeids%3D.0ch0UNQNMm5o%257C.0lJ.1o%252FzpFoI%257C%26%7C%26cautologin%3D1%26%7C%26cenglish%3D0%26%7C%26sex%3D0%26%7C%26cnamekey%3DngFeLyjy0VAac%26%7C%26to%3DWmBTPlU0VGVVMwFsC2kBOgJ9BmlXNls3XWMAa1stDj9aZ1E4BWNWZ1E0XTQBYVJnAjQ%253D%26%7C%26%3D; search=jobarea%7E%60180200%7C%21ord_field%7E%600%7C%21recentSearch0%7E%601%A1%FB%A1%FA180200%2C00%A1%FB%A1%FA000000%A1%FB%A1%FA0000%A1%FB%A1%FA00%A1%FB%A1%FA9%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FAIT%A1%FB%A1%FA2%A1%FB%A1%FA%A1%FB%A1%FA-1%A1%FB%A1%FA1493210031%A1%FB%A1%FA0%A1%FB%A1%FA%A1%FB%A1%FA%7C%21recentSearch1%7E%601%A1%FB%A1%FA180200%2C00%A1%FB%A1%FA000000%A1%FB%A1%FA0000%A1%FB%A1%FA00%A1%FB%A1%FA9%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FAIT%BE%AD%C0%ED%A1%FB%A1%FA2%A1%FB%A1%FA%A1%FB%A1%FA-1%A1%FB%A1%FA1493209918%A1%FB%A1%FA0%A1%FB%A1%FA%A1%FB%A1%FA%7C%21recentSearch2%7E%601%A1%FB%A1%FA180200%2C00%A1%FB%A1%FA000000%A1%FB%A1%FA0000%A1%FB%A1%FA00%A1%FB%A1%FA9%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FAIT%D6%F7%B9%DC%A1%FB%A1%FA2%A1%FB%A1%FA%A1%FB%A1%FA-1%A1%FB%A1%FA1493209328%A1%FB%A1%FA0%A1%FB%A1%FA%A1%FB%A1%FA%7C%21; nsearch=jobarea%3D%26%7C%26ord_field%3D%26%7C%26recentSearch0%3D%26%7C%26recentSearch1%3D%26%7C%26recentSearch2%3D%26%7C%26recentSearch3%3D%26%7C%26recentSearch4%3D%26%7C%26collapse_expansion%3D'
+}
+def get_urls(url):
+    wbdata = requests.get(url)
+    soup = BeautifulSoup(wbdata.text,'lxml')
+    links = soup.select('p > span > a')
+    for link in links:
+        link = link.get('href')
+        print(link)
+def get_pages(start,end):
+    pass
+def get_info(url):
+    #传入cookie反爬
+    wbdata = requests.get(url,headers=headers)
+    wbdata.encoding='gb2312'
+    #重编码解决乱码
+    soup = BeautifulSoup(wbdata.text,'lxml')
+
+    jobs = soup.select('div > div.cn > h1')
+    areas = soup.select('div > div.cn > span')
+    job_info = soup.select('div.tCompany_center.clearfix > div.tCompany_main > div:nth-of-type(4) > div')
+    print(job_info)
+    pass
+
+get_info(url1)
